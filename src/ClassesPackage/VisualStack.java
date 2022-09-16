@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Classes;
+package ClassesPackage;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import tda_pila.PilaEnlazada;
-import tda_pila.PilaVacia;
+import tda_stack.EmptyStack;
+import tda_stack.Stack;
 
-public class VisualStack<E> extends PilaEnlazada<E> {
+public class VisualStack<E> extends Stack<E> {
     
     private ArrayList<E> n;//List of Elements
     private ArrayList<Boolean> des;
@@ -38,7 +38,7 @@ public class VisualStack<E> extends PilaEnlazada<E> {
     }
 
     @Override
-    public void pop() throws PilaVacia {
+    public void pop() throws EmptyStack {
 
         if (c > 0) {
             des.set(--c, false);
@@ -82,6 +82,8 @@ public class VisualStack<E> extends PilaEnlazada<E> {
             Panel.drawCenteredString(n.get(i) + "", (int) pos.get(i).getX(), (int) pos.get(i).getY(), 80, 30, g);
         }
 
+        
+        
     }
 
    

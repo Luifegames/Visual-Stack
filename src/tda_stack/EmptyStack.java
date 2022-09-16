@@ -3,12 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tda_pila;
+package tda_stack;
 
-/**
- *
- * @author pepe
- */
-public class PilaVacia extends Exception {
+public class EmptyStack extends Exception {
     
 }

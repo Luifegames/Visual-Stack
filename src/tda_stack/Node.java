@@ -3,24 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tda_pila;
-/**
- *
- * @author pepe
- */
+package tda_stack;
 
-public class Nodo<E> {
+public class Node<E> {
     E info;
-    Nodo<E> next;
+    Node<E> next;
 
-    public Nodo(E info,  Nodo<E> next){
+    public Node(E info,  Node<E> next){
         this.info=info;
         this.next=next;
     }
-    public Nodo(E info){
+    public Node(E info){
         this (info,null);
     }
-    public Nodo(){
+    public Node(){
         next=null;
     }
 }

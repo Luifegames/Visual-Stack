@@ -1,4 +1,4 @@
-package Classes;
+package ClassesPackage;
 
 import com.sun.javafx.util.Utils;
 import java.awt.Color;
@@ -15,11 +15,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JPanel;
-import tda_pila.PilaVacia;
+import tda_stack.EmptyStack;
 
 public class Panel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
-    private VisualStack vs; 
+    private VisualStack vs;
     private float ypos, ydes, ydrag;
     private Point pMouse;
     private TextField tf;
@@ -40,7 +40,7 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener,
         Graphics2D g2 = (Graphics2D) g;
         //Set the font
         g2.setFont(new Font("Roboto", 0, 10));
-        
+
         //Active the smooth antialaliasing
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -49,20 +49,29 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener,
         g2.setPaint(new Color(0xaccaca));
         g2.draw(r);
         g2.fill(r);
-        
-        
+
         update();
-        
+
         //Visual Stack draw
         vs.draw(g2);
-        
+
         //Buttons draw
         bpop.draw(g2);
         bpush.draw(g2);
-        
+
         //TextField draw
         tf.draw(g2);
-        
+
+        g2.setPaint(Color.black);
+        g2.setFont(new Font("Roboto", 0, 20));
+        g2.drawString("TOP", 0, 100);
+        g2.setFont(new Font("Roboto", 0, 40));
+        try {
+            g2.drawString(vs.top() + "", 0, 140);
+        } catch (EmptyStack ex) {
+            g2.drawString(  "-", 0, 140);
+        }
+
         setOpaque(false);
         super.paintComponents(g2);
     }
@@ -99,8 +108,8 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener,
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        pMouse.setPoint(e.getX(),e.getY());
-       
+        pMouse.setPoint(e.getX(), e.getY());
+
         bpush.update(e);
         bpop.update(e);
     }
@@ -111,20 +120,19 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener,
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+
         ydrag = e.getY() - ydes;
-        
-        
+
         if (e.getButton() == 1) { //if press left button 
-            
+
             if (bpush.isEntered()) { // if is in button push
-               
+
                 //if the textfield isn´t empty
                 if (!tf.getText().equals("")) {
-                    
+
                     //put the value in the stack
                     vs.push(Integer.parseInt(tf.getText()));
-                    
+
                     //update the  y-position
                     if (vs.getC() > 6) {
                         ydes = vs.getC() * 35 - getHeight() / 2;
@@ -139,16 +147,16 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener,
             if (bpop.isEntered()) {// if is in button pop
                 try {
                     vs.pop();
-                    
-                     //update the  y-position
+
+                    //update the  y-position
                     if (vs.getC() > 6) {
                         ydes = vs.getC() * 35 - getHeight() / 2;
 
                     } else {
                         ydes = 0;
                     }
-                    
-                } catch (PilaVacia ex) {
+
+                } catch (EmptyStack ex) {
                     System.err.println("Stack is empty");
                 }
             }
@@ -163,32 +171,32 @@ public class Panel extends JPanel implements MouseListener, MouseMotionListener,
     public void keyPressed(KeyEvent e) {
         int ENTER = 10;
         int BACKSPACE = 8;
-        if (e.getKeyCode() != ENTER && e.getKeyCode() != BACKSPACE ) {
-            
+        if (e.getKeyCode() != ENTER && e.getKeyCode() != BACKSPACE) {
+
             //Only type numbers
             if (e.getKeyCode() >= 48 && e.getKeyCode() <= 57) {
                 tf.setText(tf.getText() + e.getKeyChar());
             }
-            
+
         } else {
-            if (e.getKeyCode() == BACKSPACE ) {
-                
+            if (e.getKeyCode() == BACKSPACE) {
+
                 if (tf.getText().length() > 1) {
-                    
+
                     String s = tf.getText();
                     tf.setText(s.substring(0, s.length() - 1));
-                    
+
                 } else {
-                    
+
                     tf.setText("");
-                    
+
                 }
             } else if (e.getKeyCode() == ENTER) {
-                
+
                 if (!tf.getText().equals("")) {
-                    
+
                     vs.push(Integer.parseInt(tf.getText()));
-                    
+
                     if (vs.getC() > 6) {
                         ydes = vs.getC() * 35 - getHeight() / 2;
                     }
